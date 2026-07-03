@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useActionState } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -7,7 +8,7 @@ import { registerCustomer } from '@/app/actions/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-export default function CadastroPage() {
+function CadastroForm() {
   const searchParams = useSearchParams()
   const redirect = searchParams.get('redirect') || ''
   const [state, action, pending] = useActionState(registerCustomer, undefined)
@@ -76,5 +77,13 @@ export default function CadastroPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function CadastroPage() {
+  return (
+    <Suspense>
+      <CadastroForm />
+    </Suspense>
   )
 }

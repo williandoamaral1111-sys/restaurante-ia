@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import { useActionState, useState } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -7,7 +8,7 @@ import { loginRestaurant, loginCustomer } from '@/app/actions/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-export default function LoginPage() {
+function LoginForm() {
   const searchParams = useSearchParams()
   const redirect = searchParams.get('redirect') || ''
   const [tab, setTab] = useState<'restaurant' | 'customer'>('customer')
@@ -18,7 +19,6 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-orange-50 to-orange-100 p-4">
       <div className="w-full max-w-md">
-        {/* Logo */}
         <div className="mb-8 text-center">
           <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-orange-500 text-3xl shadow-lg">
             🍽️
@@ -28,7 +28,6 @@ export default function LoginPage() {
         </div>
 
         <div className="overflow-hidden rounded-2xl bg-white shadow-xl">
-          {/* Tabs */}
           <div className="flex border-b border-gray-100">
             <button
               onClick={() => setTab('customer')}
@@ -53,7 +52,6 @@ export default function LoginPage() {
           </div>
 
           <div className="p-6">
-            {/* Customer Login */}
             {tab === 'customer' && (
               <form action={customerAction} className="space-y-4">
                 <input type="hidden" name="redirect" value={redirect} />
@@ -90,7 +88,6 @@ export default function LoginPage() {
               </form>
             )}
 
-            {/* Restaurant Login */}
             {tab === 'restaurant' && (
               <form action={restaurantAction} className="space-y-4">
                 {restaurantState?.message && (
@@ -132,5 +129,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   )
 }

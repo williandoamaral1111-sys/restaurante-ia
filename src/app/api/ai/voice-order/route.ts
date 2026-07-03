@@ -2,9 +2,8 @@ import { NextRequest } from 'next/server'
 import OpenAI from 'openai'
 import { prisma } from '@/lib/prisma'
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
-
 export async function POST(request: NextRequest) {
+  const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
   try {
     const formData = await request.formData()
     const audioBlob = formData.get('audio') as File
